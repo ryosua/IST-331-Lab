@@ -36,7 +36,7 @@ function scene:create( event )
     timeInMSText.anchorY = 0
     timeInMSText:setFillColor( 1, 1, 1 )
 
-    local timeInSecondsTxt = display.newText("Time Per Tap(ms): " .. timerInSeconds, W * .1, timeInMSText.y + 20, font, fontSize * .8 )
+    local timeInSecondsTxt = display.newText("Time Per Tap(s): " .. timerInSeconds, W * .1, timeInMSText.y + 20, font, fontSize * .8 )
     timeInSecondsTxt.anchorX  = 0
     timeInSecondsTxt.anchorY = 0
     timeInSecondsTxt:setFillColor( 1, 1, 1 )
