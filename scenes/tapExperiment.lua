@@ -8,9 +8,67 @@ local scene = composer.newScene()
 
 -- Modules
 local UI = require "modules.UI"
+local timer = require "modules.timer"
 
-local function getRandomPoint()
+
+-- Initialize the pseudo random number generator with os time
+math.randomseed( os.time() )
+
+-- Pop off some random numbers for good measure (Not sure if this does anything, but Lua Doc. says to so...)
+math.random(); math.random(); math.random()
+
+
+-- Forward references
+local progressDisplay
+
+
+-- Experiment constants + variables
+local NUMBER_OF_TRIALS = 1
+
+local targetsHit = 0
+
+
+--[[
+    Returns a random point on the screen that a given object could be placed.
+]]--
+local function getRandomPoint(object)
+    local point = {}
+
+    point.x = math.random(0,W - object.contentWidth)
+    point.y = math.random(0,H - object.contentHeight)
+
+    return point
+end
+
+local function onTargetPress(e)
+    -- Move the target to a random location
+    local randomLocation = getRandomPoint(e.target)
+    e.target.x = randomLocation.x
+    e.target.y = randomLocation.y
+
+    -- Increment the target count
+    targetsHit = targetsHit + 1
+
+    if targetsHit == NUMBER_OF_TRIALS then
+        -- Change to the results scene.
+
+        local options =
+        {
+            params = {
+                targets = targetsHit,
+                milliseconds = 1,
+            }
+        }
+        
+        composer.gotoScene("scenes.tapResults", options)
+    else
+        -- Update progress text
+        progressDisplay.text = ("Progress: " .. targetsHit .. "/" .. NUMBER_OF_TRIALS)
+    end
+
     
+
+    return true
 end
 
 -- -------------------------------------------------------------------------------
@@ -24,17 +82,37 @@ function scene:create( event )
     -- Initialize the scene here.
     -- Example: add display objects to "sceneGroup", add touch listeners, etc.
 
+    local experimentTimer = timer.new()
+    experimentTimer.start()
+
+    local font = native.systemFont
+    local fontSize = 20
+
+    local instructionText = display.newText("Tap the target as fast as possible" , W * .05, 0, font, fontSize )
+    instructionText.anchorX  = 0
+    instructionText.anchorY = 0
+    instructionText:setFillColor( 1, 1, 1 )
+
+    progressDisplay = display.newText("Progress: 0/" .. NUMBER_OF_TRIALS, W * .60, H, font, fontSize )
+    progressDisplay:setFillColor( 1, 1, 1 )
+
     -- Create the button that the user must tap.
     local tapButton = display.newImage( "images/concentric.png" )
-    tapButton.x = W * .5
-    tapButton.y = H * .5
+    tapButton.anchorX = 0
+    tapButton.anchorY = 0
+
+    local randomLocation = getRandomPoint(tapButton)
+    tapButton.x = randomLocation.x
+    tapButton.y = randomLocation.y
+    tapButton:addEventListener( "tap", onTargetPress )
 
     local backButton = UI.newBackToMenuButton()
 
     -- Add to scene group
-    sceneGroup:insert( tapButton )
+    sceneGroup:insert( instructionText )
+    sceneGroup:insert( progressDisplay )
     sceneGroup:insert( backButton )
-
+    sceneGroup:insert( tapButton )
 end
 
 

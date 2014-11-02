@@ -22,6 +22,7 @@ function UI.newDefaultButtonOptions()
             composer.gotoScene(event.target.scene)
         end
 
+        return true
     end
 
     -- Default button options
