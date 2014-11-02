@@ -1,3 +1,5 @@
+display.setStatusBar( display.HiddenStatusBar )
+
 -- Composer - Corona library for scene management
 local composer = require "composer"
 
