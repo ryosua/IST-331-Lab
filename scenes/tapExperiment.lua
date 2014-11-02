@@ -27,6 +27,8 @@ local progressDisplay
 local NUMBER_OF_TRIALS = 20
 
 local targetsHit = 0
+local startTime
+local endTime
 
 
 --[[
@@ -51,9 +53,8 @@ local function onTargetPress(e)
     targetsHit = targetsHit + 1
 
     if targetsHit == NUMBER_OF_TRIALS then
-        -- Stop and cancel the timer
-        experimentTimer.stop()
-        local time = experimentTimer.read()
+        -- Get the end time and cancel the timer
+        endTime = experimentTimer.read()
         experimentTimer.cancelTimer()
 
         -- Change to the results scene.
@@ -61,7 +62,7 @@ local function onTargetPress(e)
         {
             params = {
                 targets = targetsHit,
-                milliseconds = time,
+                milliseconds = endTime - startTime,
             }
         }
         
@@ -118,8 +119,8 @@ function scene:create( event )
     sceneGroup:insert( backButton )
     sceneGroup:insert( tapButton )
 
-    -- Start timing the experiment.
-    experimentTimer.start()
+    -- Set the time that the experiment was started.
+    startTime = experimentTimer.read()
 end
 
 

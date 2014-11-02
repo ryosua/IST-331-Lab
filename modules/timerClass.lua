@@ -12,27 +12,30 @@ function timerClass.new()
 
     local time = 0 -- time in ms
 
-    local function onDelay()
-        time = time + 1
+    local prevFrameTime, currentFrameTime --both nil
+    local deltaFrameTime = 0
+    local totalTime = 0
+
+    local function enterFrame(e)
+        local currentFrameTime = system.getTimer()
+
+        --if this is still nil, then it is the first frame 
+        --so no need to perform calculation 
+        if prevFrameTime then 
+            --calculate how many milliseconds since last frame 
+            deltaFrameTime = currentFrameTime - prevFrameTime
+         end 
+        prevFrameTime = currentFrameTime 
+        --this is the total time in milliseconds 
+        totalTime = totalTime + deltaFrameTime 
+
+        -- Set the time for the class.
+        time = totalTime
     end
 
-    -- Create the clock(timer) that will keep track of time in ms.
-    local clock = timer.performWithDelay( 1, onDelay,  -1 )
-    timer.pause(clock)
-
-    --[[
-        Starts counting on the timer.
-    ]]--
-    instance.start = function()
-        timer.resume( clock )
-    end
-
-    --[[
-        Stops the timer.
-    ]]--
-    instance.stop = function()
-        timer.pause(clock)
-    end
+    -- Add the runtime listener that will keep track of time in ms.
+    Runtime:addEventListener( "enterFrame", enterFrame )
+    --timer.pause(clock)
 
     --[[
         Reads the time from the clock.
@@ -42,7 +45,8 @@ function timerClass.new()
     end
 
     instance.cancelTimer = function()
-        timer.cancel( clock )
+        Runtime:removeEventListener ("enterFrame", enterFrame)
+        runtimeFunction = nil
     end
 
     return instance
