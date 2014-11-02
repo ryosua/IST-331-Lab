@@ -44,8 +44,8 @@ function UI.newBackToMenuButton()
     -- Opitons
     local backButtonOptions = UI.newDefaultButtonOptions()
     backButtonOptions.label = "Back"
-    backButtonOptions.left = 0 - W * .1
-    backButtonOptions.top = H * .95
+    backButtonOptions.left = 0
+    backButtonOptions.top = H * .9
 
     -- Button
     local backButton = widget.newButton( backButtonOptions )

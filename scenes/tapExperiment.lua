@@ -97,7 +97,7 @@ function scene:create( event )
     instructionText.anchorY = 0
     instructionText:setFillColor( 1, 1, 1 )
 
-    progressDisplay = display.newText("Progress: 0/" .. NUMBER_OF_TRIALS, W * .60, H, font, fontSize )
+    progressDisplay = display.newText("Progress: 0/" .. NUMBER_OF_TRIALS, W * .60, H * .95, font, fontSize )
     progressDisplay:setFillColor( 1, 1, 1 )
 
     -- Create the button that the user must tap.
