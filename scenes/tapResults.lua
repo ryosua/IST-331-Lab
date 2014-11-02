@@ -7,7 +7,7 @@ local scene = composer.newScene()
 -- -----------------------------------------------------------------------------------------------------------------
 
 -- Modules
-
+local UI = require "modules.UI"
 
 -- -------------------------------------------------------------------------------
 
@@ -28,13 +28,26 @@ function scene:create( event )
     resultsText.anchorY = 0
     resultsText:setFillColor( 1, 1, 1 )
 
-    local timePerTargetText = display.newText("Time Per Tap(ms): " .. (event.params.targets / event.params.milliseconds) , W * .1, H * .1, font, fontSize * .8 )
-    timePerTargetText.anchorX  = 0
-    timePerTargetText.anchorY = 0
-    timePerTargetText:setFillColor( 1, 1, 1 )
+    local timeInMS = event.params.milliseconds/event.params.targets
+    local timerInSeconds = timeInMS / 1000
+
+    local timeInMSText = display.newText("Time Per Tap(ms): " .. timeInMS, W * .1, H * .1, font, fontSize * .8 )
+    timeInMSText.anchorX  = 0
+    timeInMSText.anchorY = 0
+    timeInMSText:setFillColor( 1, 1, 1 )
+
+    local timeInSecondsTxt = display.newText("Time Per Tap(ms): " .. timerInSeconds, W * .1, timeInMSText.y + 20, font, fontSize * .8 )
+    timeInSecondsTxt.anchorX  = 0
+    timeInSecondsTxt.anchorY = 0
+    timeInSecondsTxt:setFillColor( 1, 1, 1 )
+
+    local backButton = UI.newBackToMenuButton()
     
     -- Add to scene group
     sceneGroup:insert(resultsText)
+    sceneGroup:insert(timeInMSText)
+    sceneGroup:insert(timeInSecondsTxt)
+    sceneGroup:insert(backButton)
 end
 
 

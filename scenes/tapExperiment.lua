@@ -8,7 +8,7 @@ local scene = composer.newScene()
 
 -- Modules
 local UI = require "modules.UI"
-local timer = require "modules.timer"
+local timerClass = require "modules.timerClass"
 
 
 -- Initialize the pseudo random number generator with os time
@@ -19,11 +19,12 @@ math.random(); math.random(); math.random()
 
 
 -- Forward references
+local experimentTimer
 local progressDisplay
 
 
 -- Experiment constants + variables
-local NUMBER_OF_TRIALS = 1
+local NUMBER_OF_TRIALS = 20
 
 local targetsHit = 0
 
@@ -50,13 +51,17 @@ local function onTargetPress(e)
     targetsHit = targetsHit + 1
 
     if targetsHit == NUMBER_OF_TRIALS then
-        -- Change to the results scene.
+        -- Stop and cancel the timer
+        experimentTimer.stop()
+        local time = experimentTimer.read()
+        experimentTimer.cancelTimer()
 
+        -- Change to the results scene.
         local options =
         {
             params = {
                 targets = targetsHit,
-                milliseconds = 1,
+                milliseconds = time,
             }
         }
         
@@ -82,8 +87,7 @@ function scene:create( event )
     -- Initialize the scene here.
     -- Example: add display objects to "sceneGroup", add touch listeners, etc.
 
-    local experimentTimer = timer.new()
-    experimentTimer.start()
+    experimentTimer = timerClass.new()
 
     local font = native.systemFont
     local fontSize = 20
@@ -113,6 +117,9 @@ function scene:create( event )
     sceneGroup:insert( progressDisplay )
     sceneGroup:insert( backButton )
     sceneGroup:insert( tapButton )
+
+    -- Start timing the experiment.
+    experimentTimer.start()
 end
 
 
