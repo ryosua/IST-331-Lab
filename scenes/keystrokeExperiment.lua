@@ -6,7 +6,9 @@ local scene = composer.newScene()
 -- All code outside of the listener functions will only be executed ONCE unless "composer.removeScene()" is called.
 -- -----------------------------------------------------------------------------------------------------------------
 
--- local forward references should go here
+-- Modules
+local UI = require "modules.UI"
+
 
 -- -------------------------------------------------------------------------------
 
@@ -19,7 +21,10 @@ function scene:create( event )
     -- Initialize the scene here.
     -- Example: add display objects to "sceneGroup", add touch listeners, etc.
 
-    
+    local backButton = UI.newBackToMenuButton()
+
+    -- Add to scene group
+    sceneGroup:insert( backButton )
 end
 
 

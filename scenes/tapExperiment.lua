@@ -6,7 +6,12 @@ local scene = composer.newScene()
 -- All code outside of the listener functions will only be executed ONCE unless "composer.removeScene()" is called.
 -- -----------------------------------------------------------------------------------------------------------------
 
--- local forward references should go here
+-- Modules
+local UI = require "modules.UI"
+
+local function getRandomPoint()
+    
+end
 
 -- -------------------------------------------------------------------------------
 
@@ -18,6 +23,18 @@ function scene:create( event )
 
     -- Initialize the scene here.
     -- Example: add display objects to "sceneGroup", add touch listeners, etc.
+
+    -- Create the button that the user must tap.
+    local tapButton = display.newImage( "images/concentric.png" )
+    tapButton.x = W * .5
+    tapButton.y = H * .5
+
+    local backButton = UI.newBackToMenuButton()
+
+    -- Add to scene group
+    sceneGroup:insert( tapButton )
+    sceneGroup:insert( backButton )
+
 end
 
 

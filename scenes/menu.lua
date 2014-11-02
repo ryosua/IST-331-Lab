@@ -6,22 +6,11 @@ local scene = composer.newScene()
 -- All code outside of the listener functions will only be executed ONCE unless "composer.removeScene()" is called.
 -- -----------------------------------------------------------------------------------------------------------------
 
--- Required files
+-- Modules
 local widget = require "widget"
-local utils = require "modules.utils"
+local UI = require "modules.UI"
 
--- local forward references should go here
 
---[[
-    
-]]--
-local function handleButtonEvent( event )
-
-    if event.phase == "ended" then
-        composer.gotoScene(event.target.scene)
-    end
-
-end
 
 -- -------------------------------------------------------------------------------
 
@@ -34,19 +23,11 @@ function scene:create( event )
 
     local sceneGroup = self.view
 
-    -- Default button options
-    local buttonOptions = {}
-    buttonOptions.left = W/5
-    buttonOptions.top = H/5
-    buttonOptions.id = " buttonID"
-    buttonOptions.label = "Default"
-    buttonOptions.onEvent = handleButtonEvent
-
     -- Button Options
-    local tapExperimentButtonOptions = utils.deepcopy(buttonOptions)
+    local tapExperimentButtonOptions = UI.newDefaultButtonOptions()
     tapExperimentButtonOptions.label = "Tap Experiment"
 
-    local keystrokeExperimentButtonOptions = utils.deepcopy(buttonOptions)
+    local keystrokeExperimentButtonOptions = UI.newDefaultButtonOptions()
     keystrokeExperimentButtonOptions.label = "Keystroke Experiment"
     keystrokeExperimentButtonOptions.top = tapExperimentButtonOptions.top + 50
 
