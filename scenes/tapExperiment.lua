@@ -88,8 +88,6 @@ function scene:create( event )
     -- Initialize the scene here.
     -- Example: add display objects to "sceneGroup", add touch listeners, etc.
 
-    experimentTimer = timerClass.new()
-
     local font = native.systemFont
     local fontSize = 20
 
@@ -120,6 +118,7 @@ function scene:create( event )
     sceneGroup:insert( tapButton )
 
     -- Set the time that the experiment was started.
+    experimentTimer = timerClass.new()
     startTime = experimentTimer.read()
 end
 
